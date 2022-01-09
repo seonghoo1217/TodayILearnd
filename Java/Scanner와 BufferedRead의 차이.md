@@ -1,16 +1,16 @@
 - [목차]
-- [Scanner와 BufferedReader?]
-- [Scanner]
-    - [Scanner의 대표적 메서드]
-    - [Scanner 예제]
-    - [Scanner 사용시 주의점]
-- [BufferedReader]
+- [Scanner 와 BufferedReader?](#scanner-와-bufferedreader?)
+- [Scanner](#scanner)
+    - [Scanner의 대표적 메서드](#scanner의-대표적-메서드)
+    - [Scanner 예제](#scanner-예제)
+    - [Scanner 사용시 주의점](#scanner-사용시-주의점)
+- [BufferedReader](#bufferedreader)
     - [BufferedReader의 대표적 메서드]
     - [BufferedReader 예제]
     - [BufferedReader 사용시 주의점]
 - [Scanner와 BufferedReader의 차이]
 
-# Scanner와 BufferedReader란?
+# Scanner 와 BufferedReader?
 
 자바언어로 프로그래밍을 진행하다 보면 Scanner나 BufferedReader를 사용하는 모습들을 볼 수 있다.
 두 메서드 모두 사용자의 입력값을 받아 주는 메서드로서 이용된다.
