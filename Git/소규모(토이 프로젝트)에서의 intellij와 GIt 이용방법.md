@@ -1,28 +1,28 @@
-#Intellij와 Git
+# Intellij와 Git
 
 > 출처 [메타코딩-Youtube](https://www.youtube.com/watch?v=W3RAX9ugrUU)을 보고 정리한 내용이며 본영상에서는 Node.js를 이용한 연동을 강의하기에 구글링을 통하여 영상이외의 필요정보를 얻었습니다.
 
-##intellij와 Git의 연동
+## intellij와 Git의 연동
 
 Intellij는 IDEA로서 통합개발환경이다. 우리가 Git을 사용하는 이유 중 하나인 나의 기록을 남기는것 또한 Intellij 내부에서 연동하여 사용가능하다.
 
-![](/TIL-img/intellij-git.png)
+![intellij-git](TIL-img/intellij-git.png)
 
 위와 같이 git 내부에서 연동하는방법과 intellij에서 프로젝트 오픈을 git clone 하는 HTTPS주소를 입력하여서 Git 프로젝트를 여는방법도 있다.
 
-##Branch
+## Branch
 
 Git에는 Branch라는 개념이 존재한다.
 
 Branch는 여러 개발자들이 동시에 다양한 작업을 할 수 있도록 도와주는 기능이다. 또한 독립적으로 어떤 작업을 진행하기 위한 개념으로 각각의 브랜치는 서로에게 영향을 끼치지않는다.
 
-![](/TIL-img/branch.png)
+![branch](TIL-img/branch.png)
 
-###Branch의 종류
+### Branch의 종류
 
 Branch의 종류에는 배포할 때 사용되는 Main과 실제 개발이되는 Dev가 있다.
 
-####Branch에 관한 의문점
+#### Branch에 관한 의문점
 
 그렇다면 소규모 프로젝트의 인원이 4명이라고 가정하였을 때 모든 개발자가 Dev에 commit,push를 하게되면 되는것일까?
 
@@ -30,7 +30,7 @@ Branch의 종류에는 배포할 때 사용되는 Main과 실제 개발이되는
 
 만약 당신이 팀장이라고 가정하였을 때 팀원들의 실제 개발 소스코드가 하나의 Branch에서 섞이게 되는경우 이를 Code Review 하고 문제점 발견시에 Rebase를 지시할 때 작업은 상당히 까다로워 질것이다. 
 
-####그렇다면 이런 문제점은 어떻게 해결해야 좋을까?
+#### 그렇다면 이런 문제점은 어떻게 해결해야 좋을까?
 
 **1. 팀장의 경우**
 
