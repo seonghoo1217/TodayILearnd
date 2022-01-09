@@ -1,14 +1,14 @@
--[목차]
--[Scanner와 BufferedReader?]
--[Scanner]
-    -[Scanner의 대표적 메서드]
-    -[Scanner 예제]
-    -[Scanner 사용시 주의점]
--[BufferedReader]
-    -[BufferedReader의 대표적 메서드]
-    -[BufferedReader 예제]
-    -[BufferedReader 사용시 주의점]
--[Scanner와 BufferedReader의 차이]
+- [목차]
+- [Scanner와 BufferedReader?]
+- [Scanner]
+    - [Scanner의 대표적 메서드]
+    - [Scanner 예제]
+    - [Scanner 사용시 주의점]
+- [BufferedReader]
+    - [BufferedReader의 대표적 메서드]
+    - [BufferedReader 예제]
+    - [BufferedReader 사용시 주의점]
+- [Scanner와 BufferedReader의 차이]
 
 # Scanner와 BufferedReader란?
 
@@ -67,7 +67,7 @@ public class PhoneBook{
 }
 ```
 => 실행결과
-![ScannerToken](C:\TIL\TIL-img\ScannerToken.PNG)
+![ScannerToken](../TIL-img/ScannerToken.PNG)
 
 토큰단위로 읽어들이기 때문에 공백을 주어 입력을 하여도 공백은 지워지고 버퍼에 저장된다.
 Scanner메서드에 각 토큰들이 순차적으로 들어가는것을 볼 수 있다.
@@ -92,7 +92,7 @@ public class PhoneBook{
 }
 ```
 => 실행결과
-![ScannerNextLine](C:\TIL\TIL-img\ScannerNextLine.PNG)
+![ScannerNextLine](../TIL-img/ScannerNextLine.PNG)
 nextLine()메서드는 String형의 데이터를 입력받기 때문에 int형이나 boolean형은 지원이 안되는것을 볼 수 잇지만
 String 형의 데이터는 Enter전까지 공백을 주어도 그대로 버퍼에 저장이되는것을 볼 수 있다.
 
@@ -123,7 +123,7 @@ public class Test {
 }
 ```
 => 실행결과
-![ScannerNextInt](C:\TIL\TIL-img\ScannerNextInt.PNG)
+![ScannerNextInt](../TIL-img/ScannerNextInt.PNG)
 
 공백을 제거해버리는 메서드들 끼리는 이상이 없이 출력이 잘되는 모습이다.
 그렇다면 공백을 읽어버리는 nextLine() 메서드는?
@@ -143,7 +143,7 @@ public class Test {
 }
 ```
 => 실행결과
-![ScannerNextIntLine](C:\TIL\TIL-img\ScannerNextIntLine.PNG)
+![ScannerNextIntLine](../TIL-img/ScannerNextIntLine.PNG)
 
 위와 같이 a에는 5\n(spacebar)값을 주었더니 \n(공백)을 읽어들이는 nextLine()메서드는 버퍼에 남아있는 \n값을 nextLine()이 이를 읽게되고
 Enter단위로 값을 받기 때문에 값을 입력받은거로 처리되어 공백문자가 들어가 버리게된다. 이를 응용하여 다른 문제점도 보자.
@@ -163,7 +163,7 @@ public class Test {
 }
 ```
 => 실행결과
-![ScannerNextNextLine](C:\TIL\TIL-img\ScannerNextNextLine.PNG)
+![ScannerNextNextLine](../TIL-img/ScannerNextNextLine.PNG)
 이와 같이 I를 제외한 문자열이 버퍼에 남아 다른 값을 입력하려해도 버퍼에 남아있는 값이 들어가게된다.
 이를 바탕으로 nextLine()메서드를 다른 메서드들과 혼합하여 사용시에 주의해야 할점이 생긴다.
 
