@@ -6,7 +6,7 @@
 
 Intellij는 IDEA로서 통합개발환경이다. 우리가 Git을 사용하는 이유 중 하나인 나의 기록을 남기는것 또한 Intellij 내부에서 연동하여 사용가능하다.
 
-![intellij-git](TIL-img/intellij-git.png)
+![intellij-git](../TIL-img/intellij-git.png)
 
 위와 같이 git 내부에서 연동하는방법과 intellij에서 프로젝트 오픈을 git clone 하는 HTTPS주소를 입력하여서 Git 프로젝트를 여는방법도 있다.
 
@@ -16,7 +16,7 @@ Git에는 Branch라는 개념이 존재한다.
 
 Branch는 여러 개발자들이 동시에 다양한 작업을 할 수 있도록 도와주는 기능이다. 또한 독립적으로 어떤 작업을 진행하기 위한 개념으로 각각의 브랜치는 서로에게 영향을 끼치지않는다.
 
-![branch](TIL-img/branch.png)
+![branch](../TIL-img/branch.png)
 
 ### Branch의 종류
 
