@@ -67,6 +67,7 @@ public class PhoneBook{
 }
 ```
 => 실행결과
+
 ![ScannerToken](../TIL-img/ScannerToken.PNG)
 
 토큰단위로 읽어들이기 때문에 공백을 주어 입력을 하여도 공백은 지워지고 버퍼에 저장된다.
@@ -92,7 +93,9 @@ public class PhoneBook{
 }
 ```
 => 실행결과
+
 ![ScannerNextLine](../TIL-img/ScannerNextLine.PNG)
+
 nextLine()메서드는 String형의 데이터를 입력받기 때문에 int형이나 boolean형은 지원이 안되는것을 볼 수 잇지만
 String 형의 데이터는 Enter전까지 공백을 주어도 그대로 버퍼에 저장이되는것을 볼 수 있다.
 
@@ -123,6 +126,7 @@ public class Test {
 }
 ```
 => 실행결과
+
 ![ScannerNextInt](../TIL-img/ScannerNextInt.PNG)
 
 공백을 제거해버리는 메서드들 끼리는 이상이 없이 출력이 잘되는 모습이다.
@@ -143,6 +147,7 @@ public class Test {
 }
 ```
 => 실행결과
+
 ![ScannerNextIntLine](../TIL-img/ScannerNextIntLine.PNG)
 
 위와 같이 a에는 5\n(spacebar)값을 주었더니 \n(공백)을 읽어들이는 nextLine()메서드는 버퍼에 남아있는 \n값을 nextLine()이 이를 읽게되고
@@ -163,7 +168,9 @@ public class Test {
 }
 ```
 => 실행결과
+
 ![ScannerNextNextLine](../TIL-img/ScannerNextNextLine.PNG)
+
 이와 같이 I를 제외한 문자열이 버퍼에 남아 다른 값을 입력하려해도 버퍼에 남아있는 값이 들어가게된다.
 이를 바탕으로 nextLine()메서드를 다른 메서드들과 혼합하여 사용시에 주의해야 할점이 생긴다.
 
