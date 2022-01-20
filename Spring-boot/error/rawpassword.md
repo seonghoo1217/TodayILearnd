@@ -30,4 +30,4 @@ IllegalArgumentException이 발생하면서 개발자입장에서는 난생처�
 2. Service 로직확인
 3. Entity값 확인
 4. Security Config 확인
-5. DB 테이블 구조 확인
+5. DB 테이블 구조 확인 
