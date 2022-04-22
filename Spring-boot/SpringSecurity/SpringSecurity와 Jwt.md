@@ -43,7 +43,7 @@ Spring Security FilterChain에는 다양한 필터들이 존재한다.
 
 10. FilterSecurityInterceptor : AccessDecisionManager로 권한부여처리를 위임하고 HTTP 리소스의 보안 처리를 수행합니다.
 
-##Spring Security의 구조
+## Spring Security의 구조
 
 ![SpringSecurity](../../TIL-img/SpringSecurity.jpeg)
 
