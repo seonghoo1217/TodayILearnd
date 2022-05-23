@@ -1,0 +1,52 @@
+# 스프링 빈 순환 참조 이슈
+# The dependencies of some of the beans in the application context form a cycle
+
+* 스프링 빈 순환 참조 이슈 전문
+
+```java
+*************************** APPLICATION FAILED TO START ***************************
+┌─────┐
+Description: The dependencies of some of the beans in the application context form a cycle: 
+securityConfig defined in file [/Users/seongho/Documents/taggare/server/out/production/classes/com/sns/server/security/SecurityConfig.class] ↑ ↓ |
+formLoginAuthenticationProvider (field private com.sns.server.account.AccountService com.dama.service.MemberService.accountService) 
+└─────┘
+```
+
+애플리케이션 컨텍스트에서 일부 Bean의 종속성이 순환주기를 형성하는 문제가 발생함.
+
+순환 종속성 또는 순환 참조 문제는 둘 이상의 Bean이 생성자를 통해 서로를 주입하려고할 때 발생한다.
+
+securityConfig에서 MemberService 를 호출하는 과정에서 해당 문제가 발생한다.
+filter를 custom하여 userDetailService를 실행하는 서비스를 지정해주는 코드에서 문제가 발생하였다
+
+
+```java
+@Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(memberService);
+        return new ProviderManager(provider);
+    }
+```
+
+위 코드와 같이 UserDetailsService를 상속받는 서비스를 MemberService로 지정하고 그 서비스를 provider에 넘겨주었는데 빈의 생성순서가 꼬여버리는것이었다.
+
+위 코드와 같이 어플리케이션 실행시 스프링 컨테이너는 SecurityConfig -> MemberService를 객체를 생성하려하지만
+실제 객체간에는 MemberService가 SpringSecurity를 의존하는 구조이기 때문에 Spring이 어떤 객체를 먼저 생성해야할지 모르게되어 Context를 load하는 동안
+
+**BeanCurrentlyInCreationException** 이 발생한다.
+
+일반적으로 Spring은 애플리케이션 컨텍스트의 시작 / 부트스트랩(일반적으로 한 번 시작되면 알아서 진행되는 일련의 과정) 과정에서 모든 싱글톤 Bean을 즉시 생성한다. 그 이유는 런타임이 아닌 컴파일 과정에서 모든 가능한 오류를 즉시 피하고 감지하는 것이다.
+
+
+
+## 임시방편 해결법
+
+구글링을 해본결과 둘중 서비스의 중요도가 더 낮은 곳에 **@Lazy** 어노테이션을 사용하여 객체의 생성 순서를 물리적으로 바꾸는 방법이 있었다.
+하지만 이는 구조적으로 보기도 좋지않았기 때문에 별도의 방법을 선택하였다.
+
+
+## 근본적인 해결법
+
+UserDetailsService를 상속받는 서비스 객체를 새로 생성하여 LoginService라는 객체를 SecurityConfig 쪽에 넘겨주어 문제를 해결할 수 있었다.
