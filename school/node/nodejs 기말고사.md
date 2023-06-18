@@ -182,6 +182,66 @@ var addUser=function (database,id,password,name,callback){
     })
 }
 ```
+## Express 모듈
+
+### 생성 및 사용예시
+```javascript
+var http = require('http');
+var express=require('express')
+var app=express();
+
+app.listen(3000,function (){
+    
+});
+
+http.createServer(app).listen(3000,function (){
+    
+});
+```
+
+### express 메서드
+- set(key,value) : 서버 설정을 위한 속성지정
+- get(key) : 서버 설정 속성을 불러옴
+- use([path,]function[,function ...]) : 미들웨어 함수사용
+- get(path,callback) : GET 메서드의 요청처리
+- post(path,callback) : POST 메서드의 요청처리
+- all(path,callback) : 모든 요청처리
+
+```javascript
+app.set('port',process.env.PORT || 3000);
+let port=app.get('port')
+```
+
+- env: 서버환경설정
+- views: 뷰들이 들어있는 폴더를 설정
+- view engine : 기본 뷰엔진 설정
+
+### 요청 파라메터 사용 
+- params
+- query
+- body
+
+- get 요청 : query를 이용해서 데이터 전달
+- post 요청 : body를 이용해서 데이터 전달
+- params : url 경로에 존재하는 데이터
+
+```javascript
+app.get('/users/:name', (req, res) => {
+  let name = req.params.name;
+
+  let params = req.params;
+  let query = req.query;
+})
+```
+
+### 요청 응답
+**요청**
+- req.query : 쿼리 문자열
+- req.path : 요청 URL 경로
+- req.paramas : URL 파라미터
+- req.cookie : 요청 메시지내에 쿠키(cookie-parser 필요)
+- req.body : 요청 메시지 내에 바디 분석 (body-parser 필요)
+
 ## (10) 3. 미들웨어: next() 메서드 (myLogger 사용자 미들웨어)
 ### 미들웨어: myLogger 사용자 미들웨어
 미들웨어는 위에서 아래로 실행되기 때문에 순서가 중요하다
@@ -257,5 +317,58 @@ app.use(bodyParser.urlencoded({extended:false}));
 - connectionLimit: 커넥션 풀에서 만들 수 있는 최대 연결개수
 - host: 연결할 호스트 이름을 설정
 - port: 데이터베이스가 사용하는 포트 번호
+- user: 데이터베이스 사용자 아이디
+- password: 사용자 비밀번호
+- database: 데이터베이스 이름
+- debug: 데이터베이스 처리과정을 로그로 남길지 결정
+
+```javascript
+// mysql 연결설정
+var pool = mysql.createPool({
+    connectionLimit :10,
+    host: 'localhost',
+    user: 'node',
+    password: 'node123',
+    database: 'nodeDB',
+    debug: false
+});
+```
+
+### DB 생성
+```javascript
+var mysql=require("mysql");
+
+var conn_info={
+    host:"localhost",
+    port:"3306",
+    user:"study",
+    password:"study123",
+    database:"nodedb"
+}
+var conn=mysql.createConnection(conn_info);
+
+conn.connect(function (error){
+    if (error) throw  error
+    else {
+        console.log("성공");
+    }
+})
+```
+
+### Query 직접쓰기
+```javascript
+var sql="insert into Testtable(ind_data,str_data) values (?,?)";
+
+var input_data1=[100,"문자열1"];
+
+conn.query(sql,input_data1,function (err){
+    console.log("저장완료")
+})
+```
+
+### DB Connection
+```javascript
+
+```
 
 ## (10) 6. mongoose: 과제4
