@@ -234,13 +234,92 @@ app.get('/users/:name', (req, res) => {
 })
 ```
 
-### 요청 응답
+### 요청 / 응답
 **요청**
 - req.query : 쿼리 문자열
 - req.path : 요청 URL 경로
 - req.paramas : URL 파라미터
 - req.cookie : 요청 메시지내에 쿠키(cookie-parser 필요)
 - req.body : 요청 메시지 내에 바디 분석 (body-parser 필요)
+
+**응답**
+- res.json() : JSON 응답 메시지 전송
+- res.redirect() : 리다이렉트 응답전송
+- res.render() : 템플릿으로 랜더링
+- res.send() : JSON,HTML,BUFFER 전송
+- res.sendStatus() : 상태코드
+- res.status() : 상태코드 설정
+- res.download() : 파일다운로드
+
+### POST
+
+```javascript
+const bodyParser = require('body-parser');
+
+let app = express();
+app.use(bodyParser());
+
+app.post('/', (req, res, next) => {
+  let body = req.body;
+  res.send('/ POST 요청');
+})
+```
+
+### 응답객체 종류
+- download()
+- json()
+- redirect()
+- render()
+- send()
+- status()
+```javascript
+const http=require('http');
+const express=require('express');
+const app=express();
+
+app.get('/send',(req,res,next)=>{
+    res.status(201).send("hello world");
+    //res.status(201).send('hello world');
+})
+
+app.get('/download',(req,res,next)=>{
+    res.download('./test.txt');
+})
+
+app.get('/redirect',(req,res,next)=>{
+    res.redirect('/send');
+})
+
+app.get('/json',(req,res,next)=>{
+    res.json({message:'success',code:0});
+})
+```
+
+### next() 호출
+![img.png](img.png)
+- 기본적으로 use()로 설정하고 next()를 호출하여 다음 미들웨어 호출
+```javascript
+// Hello Express를 응답메시지로 전송하는 미들웨어
+app.use((req,res)=>{
+    res.send('Hello Express');
+})
+```
+
+```javascript
+// 사용자 미들웨어 등록
+const http=require('http');
+const express=require('express');
+let app=express();
+
+var myLogger=(req,res,next)=>{
+    console.log('Logged');
+    next();
+}
+
+app.use(myLogger);
+
+
+```
 
 ## (10) 3. 미들웨어: next() 메서드 (myLogger 사용자 미들웨어)
 ### 미들웨어: myLogger 사용자 미들웨어
@@ -368,7 +447,196 @@ conn.query(sql,input_data1,function (err){
 
 ### DB Connection
 ```javascript
+//dbConnection.js
+var mysql=require('mysql');
 
+var dbConfig={
+    host : 'localhost',
+    user : 'node',
+    password : 'node123',
+    port : 3306,
+    database : 'nodedb'
+};
+
+var pool=mysql.createPool(dbConfig);
+
+module.exports =pool;
+```
+
+```javascript
+var pool = require('./dbConnection');
+
+pool.getConnection(function (err,conn){
+    if (err) return;
+    
+    conn.release();
+})
 ```
 
 ## (10) 6. mongoose: 과제4
+
+```javascript
+//app.js
+var morgan = require('morgan');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app=express();
+app.use(bodyParser.json())
+app.use(morgan('dev'))
+app.use(handleError)
+
+function handleError(err,req,res,next){
+    res.status(err.code).send({msg:err.message})
+}
+```
+
+```javascript
+//MovieModel.js
+var mongoose = require('mongoose');
+var url = 'mongodb://localhost:27017/Moviest';
+mongoose.connect(url);
+var conn = mongoose.connection;
+
+conn.on('open', function () {
+  console.log("conenct");
+})
+
+var MovieSchema = mongoose.Schema({
+  title: String,
+  director: String,
+  year: Number,
+  reviews: [String]
+});
+
+MovieSchema.method.addReview = function (review) {
+  this.reviews.push(review);
+  return this.save();
+}
+
+var Movie = mongoose.model('Movie', MovieSchema);
+
+module.exports=Movie;
+
+```
+
+```javascript
+var movie1 = new Movie({title:'인터스텔라', director:'크리스노퍼 놀란', year:2014});
+movie1.save(function(err, result, rows) {
+ if ( err ) {
+ console.error('Error : ', err); 
+ }
+ else {
+ console.log('Success');
+ }
+});
+Movie.create({title:'아바타', director:'제임스 카메론', year:2010}).then(
+    function fulfilled(result){
+        console.log('Success : ', result);
+}, function rejected(err) {
+ console.error('Error : ', err);
+});
+```
+
+```javascript
+//movieRouter
+function addReview(req, res, next) {
+  var movieId = req.params.movieId;
+  var review = req.body.review;
+
+  Movie.findById(movieId, function(err, doc) {
+    if ( err ) {
+      err.code = 500;
+      return next(err);
+    }
+
+    doc.addReview(review).then(function fulfilled(result) {
+      res.send({msg:'success', result:result});
+    }, function rejected(err) {
+      err.code = 500;
+      next(err);
+    });
+
+    // doc.reviews.push(review);
+    // doc.save().then(function fulfilled(result){
+    // res.send({msg:'success', result:result});
+    // }, function rejected(err) {
+    // err.code = 500;
+    // next(err);
+    // }); 
+  });
+}
+function editMovie(req, res, next) {
+  var movieId = req.params.movieId;
+  var title = req.body.title;
+  var director = req.body.director;
+  var year = parseInt(req.body.year);
+
+  Movie.findById(movieId, function(err, doc) {
+    if ( err ) {
+      err.code = 500;
+      return next(err);
+    }
+
+    if ( title )
+      doc.title = title;
+    if ( director )
+      doc.director = director;
+    if ( year )
+      doc.year = year;
+
+    doc.save().then(function fulfilled(result){
+      res.send({msg:'success', result:result});
+    }, function rejected(err) {
+      err.code = 500;
+      next(err);
+    });
+  });
+}
+function deleteMovie(req, res, next) {
+  var movieId = req.params.movieId;
+  Movie.findOneAndRemove({_id:movieId}).then(function fulfilled(result){
+    res.send({msg:'success', result:result});
+  }, function rejected(err) {
+    err.code = 500;
+    next(err);
+  });
+}
+function addMovie(req, res, next) {
+  var title = req.body.title;
+  var director = req.body.director;
+  var year = parseInt(req.body.year);
+
+  var movie = new Movie({title:title, director:director, year:year});
+  movie.save().then(function fulfilled(result){
+    console.log(result);
+    res.send({msg:'success', id:result._id});
+  }, function rejected(err) {
+    err.code = 500;
+    next(err);
+  });
+}
+function showMovieList(req, res, next) {
+  Movie.find({},{_id:1, title:1}).then(function fulfilled(docs) {
+    console.log('Succes : ');
+    var result = {
+      count : docs.length,
+      data : docs
+    };
+    res.send(result);
+  }, function rejected(err) {
+    err.code = 500;
+    next(err);
+  });
+}
+function showMovieDetail(req, res, next) {
+  var movieId = req.params.movieId;
+  Movie.findById(movieId).exec(function(err, doc) {
+    if ( err ) {
+      err.code = 500;
+      return next(err);
+    }
+    res.send(doc);
+  });
+}
+module.exports = router;
+```
