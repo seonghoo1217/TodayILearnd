@@ -190,3 +190,34 @@ age: 25
 - undo(취소)
     - 로그를 이용해 지금까지 실행된 변경 연산을 취소하는 것
     - 원래의 데이터베이스 상태로 복구
+
+## 회복기법
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqFAUt%2FbtrjWSiawaF%2FVWOHl451AVumyiiI9Bgtw1%2Fimg.png)
+
+### 로그 회복 기법 - 즉시 갱신 회복 기법
+- 트랜잭션 수행 중에 데이터 변경 연산의 결과를 데이터베이스에 즉시 반영
+- 장애 발생에 대비하기 위해 데이터 변경에 대한 내용을 로그 파일에 기록, 데이터 변경 연산이 실행되면 로그 파일에 로그 레코드를 먼저 기록한 다음 데이터베이스에 변경 연산 반영
+- 장애 발생 시점에 따라 redo나 undo 연산 실행해 데이터베이스 복구
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F4TkeO%2FbtrjWnwfguN%2FakA281l2cSvxeSAhRQLr4k%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FNDpoZ%2Fbtrj0WKTSrR%2Fjhp80BHzwczYTBVB0Kx6Xk%2Fimg.png)
+### 로그 회복 기법 - 지연 갱신 회복 기법
+
+- 트랜잭션 수행 중에 데이터 변경 연산의 결과를 로그에만 기록해두고, 트랜잭션이 부분 완료된 후에 로그에 기록된 내용을 이용해 데이터베이스에 한 번에 반영
+- undo 연산 필요 없고 redo 연산만 사용
+- 로그 레코드에는 변경 이후 값만 기록하면 됨 : <T1, X, new_value> 형식
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F6MTkE%2FbtrjXC7vBGI%2FSW89v8LVkBeD1e0Jnsasok%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbVXIaV%2Fbtrj0LbzUW5%2FtW1AtHpgZkkHvqcRt3rIL0%2Fimg.png)
+
+### 검사 시점 회복 기법
+- 로그 기록 이용하되, 일정 시간 간격으로 **검사 시점(checkpoint)**를 만듦
+- 장애 발생 시 가장 **최근 검사 시점 이후의 트랜잭션에만 회복 작업** 수행
+- 로그 전체를 대상으로 회복 기법을 적용할 때 발생할 수 있는 비효율성의 문제를 해결
+
+### 미디어 회복 기법
+- 디스크에 발생할 수 있는 장애에 대비한 회복 기법
+- 덤프(복사본) 이용: 전체 데이터베이스의 내용을 일정 주기마다 다른 안전한 저장 장치에 복사
+- 디스크 장애 발생하면, 가장 최근에 복사해둔 덤프를 이용해 장애 발생 이전의 데이터베이스 상태로 복구하고 필요에 따라 redo 연산 수행
+
+## 트랜잭션 스케줄(Transaction Schedule)
