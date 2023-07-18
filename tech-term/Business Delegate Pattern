@@ -1,0 +1,15 @@
+# Business Delegate Pattern
+- 보통적으로 프레젠테이션과 비즈니스 계층을 분리하는데 이용한다.
+    - 두 계층 간의 결합을 줄이고, 서비스 구현 세부정보를 숨기는 역할을 한다.
+- Business Delegate는 프레젠테이션 계층에서 비즈니스 객체를 호출하는 어댑터 역할
+
+## Business Delegate Pattern 사용하기
+
+**Business Delegate Pattern UML**
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FeivAnT%2FbtrmXt0WHer%2F8bfgTXw35gKKEzgUZs2s71%2Fimg.jpg)
+
+- Client : 프레젠테이션 계층으로 `JSP`,`서블릿`,`UI`자바 코드등을 나타낸다.4
+- Business Delegate : 클라이언트 Entity에 비즈니스 서비스 메서드에 대한 액세스를 제공
+- LookUp Service: Business Delegate에 비즈니스 구현 객체를 전달하는 역할
+- Business Service : 비즈니스 서비스의 인터페이스이다.
+
