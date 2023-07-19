@@ -42,8 +42,32 @@
 
 **Composite View 구성요소**
 
-- Component: 이는 계층 구조에서의 모든 요소의 공통 인터페이스를 정의합니다. 이 인터페이스는 요소들의 추가, 제거, 탐색 등을 수행할 수 있는 메서드를 포함합니다.
+- Component: 이는 계층 구조에서의 모든 요소의 공통 인터페이스를 정의한다. 이 인터페이스는 요소들의 추가, 제거, 탐색 등을 수행할 수 있는 메서드를 포함.
 
-- Leaf: 이는 계층 구조에서의 최하위 요소로, 더 이상 하위 요소를 가지지 않습니다. 주로 기본 UI 요소들을 나타낸다.
+- Leaf: 이는 계층 구조에서의 최하위 요소로, 더 이상 하위 요소를 가지지 않는다. 주로 기본 UI 요소들을 나타낸다.
 
 - Composite: 이는 계층 구조에서의 중간 또는 최상위 요소로, 다른 요소들을 하위로 가질 수 있다. 이를 통해 계층 구조를 구성하고 여러 개의 작은 요소들을 하나의 큰 UI 요소로 조합할 수 있다.
+
+즉, Composite View 패턴은 UI를 계층 구조로 표현함으로써 UI의 복잡성을 다루기 쉽게 만들어준다.
+
+### Front Controller Pattern
+- 사용자 요청제어를 한곳에서 관리하기 위한 컨트롤러를 제공한다.
+
+## Business Layer Desing Pattern
+
+### Business Delegate Pattern
+- presentation 계층과 Business 계층간의 분리를 통해 결합도를 낮추는 방법
+
+### Session Facade Pattern
+- 클라이언트와 비즈니스 로직 사이에 중간 계층을 제공하여 비즈니스 로직의 복잡성을 감소시키고 클라이언트와의 상호작용을 단순화
+- 클라이언트는 분산된 비즈니스 컴포넌트들과 직접 상호작용하지 않고, 중간 계층에 위치한 Session Facade를 통해 비즈니스 로직을 호출
+
+### Transfer Object Pattern
+- 클라이언트에서 서버로 한 번에 여러 속성을 가진 데이터를 전달 할 때 사용한다.
+- 한 객체(Class)안에 `filed` 값을 여러개 묶어 전달한다.
+- 데이터 송수신을 위한 **round trip** 숫자를 줄여 성능적으로 이점이 크다.
+- 기본적으로 DTO(Data Transfer Object)을 사용한다.
+
+![] (https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb7IPba%2FbtrmQ3n86G4%2FcbTx7KKKu9PD5aqDUuYRd1%2Fimg.jpg)
+
+- VO(Value Object)와는 별도의 개념으로 분리된다.
