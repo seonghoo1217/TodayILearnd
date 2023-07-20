@@ -1,0 +1,1 @@
+# DAO vs DTO vs VO and Entity
