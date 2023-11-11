@@ -139,3 +139,7 @@ Record 타입으로 변경한 후 Entity를 쓰면 `User declared non-static fie
 
 **Config Class**
 - DTO와 마찬가지로 설정값의 추가를 불변하게 만들어 사용하기에 유용하다.
+
+### REF
+- https://velog.io/@power0080/java%EC%9E%90%EB%B0%94-record%EB%A5%BC-entity%EB%A1%9C
+- https://velog.io/@gongmeda/Java-Record-%ED%86%BA%EC%95%84%EB%B3%B4%EA%B8%B0-Spring-%EC%97%90%EC%84%9C%EC%9D%98-Record-%EC%82%AC%EC%9A%A9-%EC%82%AC%EB%A1%80%EC%99%80-%ED%95%A8%EA%BB%98
